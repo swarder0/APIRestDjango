@@ -5,7 +5,19 @@ from escola.models import Aluno, Curso, Matricula
 class AlunoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Aluno
-        fields = ['id', 'nome', 'rg', 'cpf', 'data_nascimento']
+        fields = '__all__'
+    def validate_cpf(self, cpf):
+        if len(cpf) != 11:
+            raise serializers.ValidationError('CPF deve conter 11 dígitos.')
+        return cpf
+    def validate_nome(self, nome):
+        if not nome.isalpha():
+            raise serializers.ValidationError('O nome deve conter apenas letras.')
+        return nome
+    def validate_rg(self, rg):
+        if len(rg) != 9:
+            raise serializers.ValidationError('RG deve conter 9 dígitos.')
+        return rg
 
 class CursoSerializer(serializers.ModelSerializer):
     class Meta:
