@@ -1,23 +1,22 @@
 from rest_framework import serializers
 from escola.models import Aluno, Curso, Matricula
+from escola.validators import *
 
 
 class AlunoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Aluno
         fields = '__all__'
-    def validate_cpf(self, cpf):
-        if len(cpf) != 11:
-            raise serializers.ValidationError('CPF deve conter 11 dígitos.')
-        return cpf
-    def validate_nome(self, nome):
-        if not nome.isalpha():
-            raise serializers.ValidationError('O nome deve conter apenas letras.')
-        return nome
-    def validate_rg(self, rg):
-        if len(rg) != 9:
-            raise serializers.ValidationError('RG deve conter 9 dígitos.')
-        return rg
+    def validate(self, data):
+        if not validate_cpf(data['cpf']):
+            raise serializers.ValidationError({'cpf':'CPF invalido, por favor digite um CPF valido.'})
+        if not validate_nome(data['nome']):
+            raise serializers.ValidationError({'nome':'O nome deve conter apenas letras.'})
+        if validate_rg(data['rg']):
+            raise serializers.ValidationError({'rg':'RG deve conter 9 dígitos.'})
+        if not validate_email(data['email']):
+                raise serializers.ValidationError('E-mail inválido, por favor digite um e-mail válido.')
+        return data
 
 class CursoSerializer(serializers.ModelSerializer):
     class Meta:
