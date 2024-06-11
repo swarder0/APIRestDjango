@@ -1,8 +1,9 @@
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, filters
 from escola.models import Aluno, Curso, Matricula
 from escola.serializer import AlunoSerializer, CursoSerializer, MatriculaSerializer, ListaMatriculaAlunoSerializer, ListaMatriculaAlunoCursoSerializer
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 
@@ -11,6 +12,9 @@ class AlunosViewSet(viewsets.ModelViewSet):
 
     queryset = Aluno.objects.all()
     serializer_class = AlunoSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    ordering_fields = ['nome']
+    search_fields = ['nome', 'cpf']
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -18,6 +22,9 @@ class CursosViewSet(viewsets.ModelViewSet):
     """Exibindo todos os cursos"""
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    ordering_fields = ['descricao', 'nivel']
+    search_fields = ['codigo_curso', 'descricao']
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -26,6 +33,7 @@ class MatriculasViewSet(viewsets.ModelViewSet):
     queryset = Matricula.objects.all()
     serializer_class = MatriculaSerializer
     authentication_classes = [BasicAuthentication]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     permission_classes = [IsAuthenticated]
 
 class ListaMatriculasAlunos(generics.ListAPIView):
