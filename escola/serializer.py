@@ -6,7 +6,7 @@ from escola.validators import *
 class AlunoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Aluno
-        fields = ['nome', 'cpf', 'rg', 'data_nascimento', 'email']
+        fields = ['nome', 'email', 'cpf', 'rg', 'data_nascimento', 'foto']
     def validate(self, data):
         if not validate_cpf(data['cpf']):
             raise serializers.ValidationError({'cpf':'CPF invalido, por favor digite um CPF valido.'})
@@ -46,7 +46,7 @@ class ListaMatriculaAlunoCursoSerializer(serializers.ModelSerializer):
 class AlunoSerializerV2(serializers.ModelSerializer):
     class Meta:
         model = Aluno
-        fields = ['nome','celular', 'email', 'cpf', 'rg', 'data_nascimento' ]
+        fields = ['nome','celular', 'email', 'cpf', 'rg', 'data_nascimento', 'foto']
     def validate(self, data):
         if not validate_cpf(data['cpf']):
             raise serializers.ValidationError({'cpf':'CPF invalido, por favor digite um CPF valido.'})

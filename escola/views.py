@@ -2,6 +2,8 @@ from rest_framework import viewsets, generics, filters
 from escola.models import Aluno, Curso, Matricula
 from escola.serializer import AlunoSerializer, CursoSerializer, MatriculaSerializer, ListaMatriculaAlunoSerializer, ListaMatriculaAlunoCursoSerializer, AlunoSerializerV2
 from django_filters.rest_framework import DjangoFilterBackend
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 
 
@@ -35,6 +37,12 @@ class MatriculasViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     ordering_fields = ['periodo', 'curso']
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+
+
+    @method_decorator(cache_page(20))
+    def dispacth(self,*args, **kwargs):
+        return super(MatriculasViewSet, self).dispacth(*args, **kwargs)
+
 
 class ListaMatriculasAlunos(generics.ListAPIView):
     """Listando as Matriculas de um Aluno(a)"""
