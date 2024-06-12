@@ -12,3 +12,5 @@ def validate_email(client_email):
     modelo = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     resposta = re.findall(modelo, client_email)
     return resposta
+def validate_celular(client_celular):
+    return len(client_celular) == 11

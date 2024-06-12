@@ -6,6 +6,7 @@ class Aluno(models.Model):
     rg = models.CharField(max_length=9,)
     cpf = models.CharField(max_length=11, unique=True)
     data_nascimento = models.DateField()
+    celular = models.CharField(max_length=15, default="")
 
     def __str__(self):
         return self.nome
@@ -23,7 +24,7 @@ class Curso(models.Model):
 
     def __str__(self):
         return self.descricao
-    
+ 
 
 class Matricula(models.Model):
     PERIODO = (
