@@ -28,6 +28,7 @@ class CursosViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['descricao', 'nivel']
     search_fields = ['codigo_curso', 'descricao']
+    http_method_names = ['get', 'post', 'put', 'path']
 
 
 class MatriculasViewSet(viewsets.ModelViewSet):
